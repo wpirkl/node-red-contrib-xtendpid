@@ -1,0 +1,137 @@
+<!-- Digital In -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('xtendpid digital in',{
+        category: 'xtendpid',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            host: {value:"localhost"},
+            port: {value:"5555"},
+            pin: {value:"", required:true, validate:RED.validators.number()},
+        },
+        inputs:0,
+        outputs:1,
+        icon: "rpi.png",
+        label: function() {
+            return this.name || "ditial in: " + this.pin;
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        inputLabels: function() { return "DIN" + this.pin; },
+        paletteLabel: "digital in",
+    });
+</script>
+
+<script type="text/x-red" data-template-name="xtendpid digital in">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-host"><i class="fa fa-globe"></i> Host</label>
+        <input type="text" id="node-input-host" placeholder="localhost" style="width:250px;">
+        <input type="number" id="node-input-port" placeholder="port" style="width:65px;">
+    </div>
+        <div class="form-row">
+        <label for="node-input-pin"><i class="fa fa-globe"></i> Pin</label>
+        <input type="number" id="node-input-pin" placeholder="pin" min="0" max="7" style="width:65px;">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="xtendpid relay out">
+    <p>A simple node that converts the message payloads into all lower-case characters</p>
+</script>
+
+<!-- Digital Out -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('xtendpid digital out',{
+        category: 'xtendpid',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            host: {value:"localhost"},
+            port: {value:"5555"},
+            pin: {value:"", required:true, validate:RED.validators.number()},
+        },
+        inputs:1,
+        outputs:0,
+        icon: "rpi.png",
+        label: function() {
+            return this.name || "ditial out: " + this.pin;
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        inputLabels: function() { return "DOUT" + this.pin; },
+        paletteLabel: "digital out",
+    });
+</script>
+
+<script type="text/x-red" data-template-name="xtendpid digital out">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-host"><i class="fa fa-globe"></i> Host</label>
+        <input type="text" id="node-input-host" placeholder="localhost" style="width:250px;">
+        <input type="number" id="node-input-port" placeholder="port" style="width:65px;">
+    </div>
+        <div class="form-row">
+        <label for="node-input-pin"><i class="fa fa-globe"></i> Pin</label>
+        <input type="number" id="node-input-pin" placeholder="pin" min="0" max="7" style="width:65px;">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="xtendpid relay out">
+    <p>A simple node that converts the message payloads into all lower-case characters</p>
+</script>
+
+<!-- Relay Out -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('xtendpid relay out',{
+        category: 'xtendpid',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            host: {value:"localhost"},
+            port: {value:"5555"},
+            pin: {value:"", required:true, validate:RED.validators.number()},
+        },
+        inputs:1,
+        outputs:0,
+        icon: "rpi.png",
+        label: function() {
+            return this.name || "relay out: " + this.pin;
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        inputLabels: function() { return "ROUT" + this.pin; },
+        paletteLabel: "relay out",
+    });
+</script>
+
+<script type="text/x-red" data-template-name="xtendpid relay out">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-host"><i class="fa fa-globe"></i> Host</label>
+        <input type="text" id="node-input-host" placeholder="localhost" style="width:250px;">
+        <input type="number" id="node-input-port" placeholder="port" style="width:65px;">
+    </div>
+        <div class="form-row">
+        <label for="node-input-pin"><i class="fa fa-globe"></i> Pin</label>
+        <input type="number" id="node-input-pin" placeholder="pin" min="0" max="7" style="width:65px;">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="xtendpid relay out">
+    <p>A simple node that converts the message payloads into all lower-case characters</p>
+</script>
