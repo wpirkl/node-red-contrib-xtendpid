@@ -57,8 +57,12 @@ module.exports = function(RED) {
 
     async function req_rep(node, sock, msg) {
 
+        // console.log("sending: " + Uint8Array.from(msg));
+
         await sock.send(Uint8Array.from(msg));
         const [result] = await sock.receive();
+
+        // console.log("result: " + Uint8Array.from(result));
 
         // here parse the result and if it's not ok, raise an error
         if(result[0] != msg[0] || result[1] != 0) {
@@ -115,6 +119,7 @@ module.exports = function(RED) {
                 message = [5, config.pin, (msg.payload)? 1 : 0];
 
                 req_rep(node, sock, message);
+                node.done();
             }
 
         });
