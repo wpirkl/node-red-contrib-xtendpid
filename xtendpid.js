@@ -11,7 +11,7 @@ module.exports = function(RED) {
                     break;
                 case "connect:delay":
                 case "connect:retry":
-                    node.status({fill: "blue", text: 'Awaiting connection'});
+                    node.status({fill: "blue", text: 'awaiting connection'});
                     break;
                 case "close":
                 case "disconnect":
@@ -119,7 +119,6 @@ module.exports = function(RED) {
                 message = [5, config.pin, (msg.payload)? 1 : 0];
 
                 req_rep(node, sock, message);
-                node.done();
             }
 
         });
