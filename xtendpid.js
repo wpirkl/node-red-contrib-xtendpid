@@ -8,14 +8,21 @@ module.exports = function(RED) {
             switch(event.type) {
                 case "connect":
                     node.status({fill: "green", text: "connected"});
+                    node.connected = true;
                     break;
                 case "connect:delay":
                 case "connect:retry":
                     node.status({fill: "blue", text: 'awaiting connection'});
+                    node.connected = false;
                     break;
                 case "close":
                 case "disconnect":
                     node.status({fill: "red", text: "disconnected"});
+                    node.connected = false;
+                    break;
+                default:
+                    node.status({fill: "orange", text: "??"});
+                    node.connected = false;
                     break;
             }
         }
@@ -26,6 +33,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
 
         var node = this;
+        node.connected = false;
 
         const sock = new zmq.Subscriber;
 
@@ -55,6 +63,53 @@ module.exports = function(RED) {
 
     RED.nodes.registerType("xtendpid digital in", DigitalInNode);
 
+    async function req_rep_data(node, sock, msg) {
+
+        // console.log("sending: " + Uint8Array.from(msg));
+
+        await sock.send(Uint8Array.from(msg));
+        const [result] = await sock.receive();
+
+        // console.log("result: " + Uint8Array.from(result));
+
+        // here parse the result and if it's not ok, raise an error
+        if(result[0] != msg[0] || result[1] != 0) {
+            node.error("Something went wrong!");
+        } else {
+            node.send({"payload": msg[2] != 0, "topic": config.topic});
+        }
+    }
+
+    function RequestDigitalInNode(config) {
+
+        RED.nodes.createNode(this,config);
+
+        var node = this;
+        node.connected = false;
+
+        const sock = new zmq.Request
+
+        sock.connect("tcp://" + config.host + ":" + config.port);
+
+        this.on('input', function(msg) {
+
+            // do all the work here
+            if(msg.topic == config.topic) {
+
+                message = [3, config.pin, (msg.payload)? 1 : 0];
+
+                req_rep_data(node, sock, message);
+            }
+        });
+
+        handle_events(sock, node);
+
+        node.on('close', function () {
+            sock.close();
+        });
+    }
+    RED.nodes.registerType("xtendpid request digital in", RequestDigitalInNode);
+
     async function req_rep(node, sock, msg) {
 
         // console.log("sending: " + Uint8Array.from(msg));
@@ -70,12 +125,12 @@ module.exports = function(RED) {
         }
     }
 
-
     function DigitalOutNode(config) {
 
         RED.nodes.createNode(this,config);
 
         var node = this;
+        node.connected = false;
 
         const sock = new zmq.Request
 
@@ -106,6 +161,7 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
 
         var node = this;
+        node.connected = false;
 
         const sock = new zmq.Request
 
