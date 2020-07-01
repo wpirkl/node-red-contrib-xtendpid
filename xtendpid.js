@@ -7,6 +7,8 @@ module.exports = function(RED) {
         for await (event of sock.events) {
             switch(event.type) {
                 case "connect":
+                case "handshake":
+                case "end":
                     node.status({fill: "green", text: "connected"});
                     node.connected = true;
                     break;
@@ -76,7 +78,7 @@ module.exports = function(RED) {
         if(result[0] != msg[0] || result[1] != 0 || result[2] != msg[1]) {
             node.error("Something went wrong!");
         } else {
-            node.send({"payload": msg[3] != 0, "topic": config.topic});
+            node.send({"payload": msg[3] != 0, "topic": msg.topic});
         }
     }
 
