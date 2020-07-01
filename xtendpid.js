@@ -21,7 +21,7 @@ module.exports = function(RED) {
                     node.connected = false;
                     break;
                 default:
-                    node.status({fill: "orange", text: "??"});
+                    node.status({fill: "orange", text: "??" + event.type + "??"});
                     node.connected = false;
                     break;
             }
@@ -73,10 +73,10 @@ module.exports = function(RED) {
         // console.log("result: " + Uint8Array.from(result));
 
         // here parse the result and if it's not ok, raise an error
-        if(result[0] != msg[0] || result[1] != 0) {
+        if(result[0] != msg[0] || result[1] != 0 || result[2] != msg[1]) {
             node.error("Something went wrong!");
         } else {
-            node.send({"payload": msg[2] != 0, "topic": config.topic});
+            node.send({"payload": msg[3] != 0, "topic": config.topic});
         }
     }
 
@@ -96,7 +96,7 @@ module.exports = function(RED) {
             // do all the work here
             if(msg.topic == config.topic) {
 
-                message = [3, config.pin, (msg.payload)? 1 : 0];
+                message = [3, config.pin];
 
                 req_rep_data(node, sock, message);
             }
